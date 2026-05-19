@@ -1,3 +1,3 @@
 # devops-first-repo
-Intial commit
 Second commit
+Feature branch changes
