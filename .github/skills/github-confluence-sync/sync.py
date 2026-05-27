@@ -4,7 +4,7 @@ GitHub to Confluence Sync Script
 Syncs file changes from GitHub repository to Jira Confluence pages
 """
 
-import os
+
 import sys
 import json
 import requests
@@ -12,6 +12,10 @@ import base64
 from datetime import datetime
 from urllib.parse import urlparse
 import argparse
+from dotenv import load_dotenv
+import os
+load_dotenv()  # this loads .env variables
+
 
 class GitHubConfluenceSync:
     """Sync GitHub file changes to Confluence pages"""
