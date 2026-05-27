@@ -1,0 +1,45 @@
+graph LR
+    subgraph sg [" PaymentProcessingFlow "]
+    ReceivePaymentRequest["📥 HTTPInputNode<br/>ReceivePaymentRequest<br/>Receive Payment Request from Client"]
+    ValidatePaymentData["⚙️ ComputeNode<br/>ValidatePaymentData<br/>Validate Payment Details and Format"]
+    CheckFraud["🗄️ DatabaseNode<br/>CheckFraud<br/>Check Against Fraud Rules"]
+    AuthorizePayment["📥 HTTPInputNode<br/>AuthorizePayment<br/>Call Payment Gateway API"]
+    UpdateLedger["🗄️ DatabaseNode<br/>UpdateLedger<br/>Update Accounting Ledger"]
+    GenerateReceipt["⚙️ ComputeNode<br/>GenerateReceipt<br/>Generate Payment Receipt"]
+    SendConfirmation["📤 HTTPReplyNode<br/>SendConfirmation<br/>Send Payment Confirmation"]
+    ErrorHandler["⚠️ ErrorHandler<br/>ErrorHandler<br/>Handle Payment Errors"]
+    LogTransaction["📁 FileOutputNode<br/>LogTransaction<br/>Log Transaction Details"]
+    ReceivePaymentRequest -->|Receive Request| ValidatePaymentData
+    ValidatePaymentData -->|Valid Data| CheckFraud
+    ValidatePaymentData -->|Invalid Data| ErrorHandler
+    CheckFraud -->|Not Fraud| AuthorizePayment
+    CheckFraud -->|Fraud Detected| ErrorHandler
+    AuthorizePayment -->|Authorized| UpdateLedger
+    AuthorizePayment -->|Auth Failed| ErrorHandler
+    UpdateLedger -->|Updated| GenerateReceipt
+    UpdateLedger -->|DB Error| ErrorHandler
+    GenerateReceipt -->|Receipt Ready| LogTransaction
+    LogTransaction -->|Logged| SendConfirmation
+    ErrorHandler -->|Error Response| SendConfirmation
+
+    %% Node Styling
+    style ReceivePaymentRequest fill:#e3f2fd,stroke:#1976d2,color:#000
+    style ValidatePaymentData fill:#fff3e0,stroke:#f57c00,color:#000
+    style CheckFraud fill:#e8f5e9,stroke:#388e3c,color:#000
+    style AuthorizePayment fill:#e3f2fd,stroke:#1976d2,color:#000
+    style UpdateLedger fill:#e8f5e9,stroke:#388e3c,color:#000
+    style GenerateReceipt fill:#fff3e0,stroke:#f57c00,color:#000
+    style SendConfirmation fill:#fce4ec,stroke:#c2185b,color:#000
+    style ErrorHandler fill:#ffebee,stroke:#c62828,color:#000
+    style LogTransaction fill:#ffcc80,stroke:#ef6c00,color:#000
+    end
+    subgraph legend [" Legend "]
+        direction LR
+        i1["📥 HTTP Input"]
+        i2["📤 HTTP Reply"]
+        i3["⚙️ Compute"]
+        i4["🗄️ Database"]
+        i5["🔄 Filter"]
+    end
+
+    style legend fill:#f9f9f9,stroke:#999,stroke-width:2px
