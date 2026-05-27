@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messageFlow name="PaymentProcessingFlow">
+    <node name="ReceivePaymentRequest" type="HTTPInputNode" description="Receive Payment Request from Client"/>
+    <node name="ValidatePaymentData" type="ComputeNode" description="Validate Payment Details and Format"/>
+    <node name="CheckFraud" type="DatabaseNode" description="Check Against Fraud Rules"/>
+    <node name="AuthorizePayment" type="HTTPRequestNode" description="Call Payment Gateway API"/>
+    <node name="UpdateLedger" type="DatabaseNode" description="Update Accounting Ledger"/>
+    <node name="GenerateReceipt" type="ComputeNode" description="Generate Payment Receipt"/>
+    <node name="SendConfirmation" type="HTTPReplyNode" description="Send Payment Confirmation"/>
+    <node name="ErrorHandler" type="ErrorHandler" description="Handle Payment Errors"/>
+    <node name="LogTransaction" type="FileOutputNode" description="Log Transaction Details"/>
+    
+    <connection source="ReceivePaymentRequest" target="ValidatePaymentData" label="Receive Request" type="main"/>
+    <connection source="ValidatePaymentData" target="CheckFraud" label="Valid Data" type="main"/>
+    <connection source="ValidatePaymentData" target="ErrorHandler" label="Invalid Data" type="error"/>
+    <connection source="CheckFraud" target="AuthorizePayment" label="Not Fraud" type="main"/>
+    <connection source="CheckFraud" target="ErrorHandler" label="Fraud Detected" type="error"/>
+    <connection source="AuthorizePayment" target="UpdateLedger" label="Authorized" type="main"/>
+    <connection source="AuthorizePayment" target="ErrorHandler" label="Auth Failed" type="error"/>
+    <connection source="UpdateLedger" target="GenerateReceipt" label="Updated" type="main"/>
+    <connection source="UpdateLedger" target="ErrorHandler" label="DB Error" type="error"/>
+    <connection source="GenerateReceipt" target="LogTransaction" label="Receipt Ready" type="main"/>
+    <connection source="LogTransaction" target="SendConfirmation" label="Logged" type="main"/>
+    <connection source="ErrorHandler" target="SendConfirmation" label="Error Response" type="error"/>
+</messageFlow>

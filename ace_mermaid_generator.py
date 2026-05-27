@@ -229,7 +229,7 @@ class MermaidDiagramGenerator:
         lines.append("")
         lines.append("    %% Node Styling")
         for node_name, node in flow.nodes.items():
-            node_id = ACEFlowParser._sanitize_id(node_name)
+            node_id = MermaidDiagramGenerator._sanitize_id(node_name)
             style = f"fill:{node.node_type.bg_color},stroke:{node.node_type.border_color},color:#000"
             lines.append(f"    style {node_id} {style}")
 
