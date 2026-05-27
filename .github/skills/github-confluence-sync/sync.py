@@ -21,7 +21,7 @@ class GitHubConfluenceSync:
     """Sync GitHub file changes to Confluence pages"""
     
     def __init__(self):
-        self.github_token = os.getenv('GITHUB_TOKEN')
+        self.github_token = os.getenv('MY_GITHUB_TOKEN')
         self.confluence_token = os.getenv('CONFLUENCE_TOKEN')
         self.confluence_base_url = os.getenv('CONFLUENCE_BASE_URL')
         self.confluence_space_key = os.getenv('CONFLUENCE_SPACE_KEY')
