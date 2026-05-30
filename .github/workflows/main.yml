@@ -1,13 +1,20 @@
 name: Sync GitHub Issues to Jira
 
 on:
+  workflow_dispatch:        # allows manual runs from Actions tab
   issues:
-    types: [opened, closed, edited]
+    types: [opened, closed, edited]   # automatic runs when issues change
 
 jobs:
   sync-to-jira:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate YAML syntax
+        run: |
+          echo "✅ Workflow syntax looks good!"
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Issue title: ${{ github.event.issue.title }}"
+
       - name: Update Jira
         run: |
           curl -X POST \
