@@ -21,4 +21,4 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.CONFLUENCE_TOKEN }}" \
             -H "Content-Type: application/json" \
             -d '{"fields":{"summary":"${{ github.event.issue.title }}","description":"${{ github.event.issue.body }}"}}' \
-            https://vijayakumar771.atlassian.net/rest/api/3/issue
+            https://vijayakumar771.atlassian.net
