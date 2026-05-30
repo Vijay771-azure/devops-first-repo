@@ -1,13 +1,17 @@
+name: Sync GitHub Issues to Jira
+
 on:
   issues:
     types: [opened, closed, edited]
+
 jobs:
   sync-to-jira:
     runs-on: ubuntu-latest
     steps:
       - name: Update Jira
-        run: curl -X POST \
-          -H "Authorization: Bearer ${{ secrets.JIRA_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d '{"fields":{"summary":"${{ github.event.issue.title }}","description":"${{ github.event.issue.body }}"}}' \
-          https://vijayakumar771.atlassian.net
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.CONFLUENCE_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"fields":{"summary":"${{ github.event.issue.title }}","description":"${{ github.event.issue.body }}"}}' \
+            https://vijayakumar771.atlassian.net/rest/api/3/issue
